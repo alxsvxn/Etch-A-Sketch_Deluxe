@@ -22,17 +22,125 @@ Partial Class EtchASketchForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.ClearButton = New System.Windows.Forms.Button()
+        Me.SerialPort = New System.IO.Ports.SerialPort(Me.components)
+        Me.QYATBoardRadioButton = New System.Windows.Forms.RadioButton()
+        Me.ColorButton = New System.Windows.Forms.Button()
+        Me.WaveButton = New System.Windows.Forms.Button()
+        Me.MouseRadioButton = New System.Windows.Forms.RadioButton()
+        Me.COMPortComboBox = New System.Windows.Forms.ComboBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.ReadTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.CommandTimer = New System.Windows.Forms.Timer(Me.components)
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
-        'Form1
+        'PictureBox1
+        '
+        Me.PictureBox1.Location = New System.Drawing.Point(12, 12)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(776, 364)
+        Me.PictureBox1.TabIndex = 0
+        Me.PictureBox1.TabStop = False
+        '
+        'ClearButton
+        '
+        Me.ClearButton.Location = New System.Drawing.Point(518, 382)
+        Me.ClearButton.Name = "ClearButton"
+        Me.ClearButton.Size = New System.Drawing.Size(86, 56)
+        Me.ClearButton.TabIndex = 1
+        Me.ClearButton.Text = "Clear"
+        Me.ClearButton.UseVisualStyleBackColor = True
+        '
+        'QYATBoardRadioButton
+        '
+        Me.QYATBoardRadioButton.AutoSize = True
+        Me.QYATBoardRadioButton.Location = New System.Drawing.Point(454, 414)
+        Me.QYATBoardRadioButton.Name = "QYATBoardRadioButton"
+        Me.QYATBoardRadioButton.Size = New System.Drawing.Size(58, 17)
+        Me.QYATBoardRadioButton.TabIndex = 2
+        Me.QYATBoardRadioButton.TabStop = True
+        Me.QYATBoardRadioButton.Text = "Analog"
+        Me.QYATBoardRadioButton.UseVisualStyleBackColor = True
+        '
+        'ColorButton
+        '
+        Me.ColorButton.Location = New System.Drawing.Point(610, 382)
+        Me.ColorButton.Name = "ColorButton"
+        Me.ColorButton.Size = New System.Drawing.Size(86, 56)
+        Me.ColorButton.TabIndex = 3
+        Me.ColorButton.Text = "Color"
+        Me.ColorButton.UseVisualStyleBackColor = True
+        '
+        'WaveButton
+        '
+        Me.WaveButton.Location = New System.Drawing.Point(702, 382)
+        Me.WaveButton.Name = "WaveButton"
+        Me.WaveButton.Size = New System.Drawing.Size(86, 56)
+        Me.WaveButton.TabIndex = 4
+        Me.WaveButton.Text = "Waves"
+        Me.WaveButton.UseVisualStyleBackColor = True
+        '
+        'MouseRadioButton
+        '
+        Me.MouseRadioButton.AutoSize = True
+        Me.MouseRadioButton.Location = New System.Drawing.Point(454, 391)
+        Me.MouseRadioButton.Name = "MouseRadioButton"
+        Me.MouseRadioButton.Size = New System.Drawing.Size(57, 17)
+        Me.MouseRadioButton.TabIndex = 5
+        Me.MouseRadioButton.TabStop = True
+        Me.MouseRadioButton.Text = "Mouse"
+        Me.MouseRadioButton.UseVisualStyleBackColor = True
+        '
+        'COMPortComboBox
+        '
+        Me.COMPortComboBox.FormattingEnabled = True
+        Me.COMPortComboBox.Location = New System.Drawing.Point(12, 391)
+        Me.COMPortComboBox.Name = "COMPortComboBox"
+        Me.COMPortComboBox.Size = New System.Drawing.Size(121, 21)
+        Me.COMPortComboBox.TabIndex = 6
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(19, 416)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(108, 13)
+        Me.Label1.TabIndex = 7
+        Me.Label1.Text = "COM PORT SELECT"
+        '
+        'EtchASketchForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
-        Me.Name = "Form1"
+        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.COMPortComboBox)
+        Me.Controls.Add(Me.MouseRadioButton)
+        Me.Controls.Add(Me.WaveButton)
+        Me.Controls.Add(Me.ColorButton)
+        Me.Controls.Add(Me.QYATBoardRadioButton)
+        Me.Controls.Add(Me.ClearButton)
+        Me.Controls.Add(Me.PictureBox1)
+        Me.Name = "EtchASketchForm"
         Me.Text = "Form1"
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
+    Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents ClearButton As Button
+    Friend WithEvents SerialPort As IO.Ports.SerialPort
+    Friend WithEvents QYATBoardRadioButton As RadioButton
+    Friend WithEvents ColorButton As Button
+    Friend WithEvents WaveButton As Button
+    Friend WithEvents MouseRadioButton As RadioButton
+    Friend WithEvents COMPortComboBox As ComboBox
+    Friend WithEvents Label1 As Label
+    Friend WithEvents ReadTimer As Timer
+    Friend WithEvents CommandTimer As Timer
 End Class
