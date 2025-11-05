@@ -53,5 +53,44 @@ Public Class EtchASketchForm
         Randomize()
         Return CInt(System.Math.Floor((Rnd() * (max + 1))))
     End Function
-    '==========================================COLORS & GRAPHICS========================================
+    '==========================================BUTTONS==========================================
+    Private Sub WaveButton_Click(sender As Object, e As EventArgs) Handles WaveButton.Click
+        Graticules()
+    End Sub
+    '==========================================COLORS==========================================
+    Function SetColor(Optional newColor As Color = Nothing) As Color    'SETS OR GETS FORECOLOR
+        Static _forecolor As Color = Color.PaleTurquoise
+        If newColor <> Nothing Then
+            _forecolor = newColor
+        End If
+        Return _forecolor
+    End Function
+    Function DialogBox() As Color
+        ColorBox.ShowDialog()
+        SetColor(ColorBox.Color)
+        Return SetColor()
+    End Function
+    '==========================================GRAPHICS==========================================
+
+    Sub Graticules()
+        Dim graphics As Graphics = GraphicsPictureBox.CreateGraphics
+        Dim pen As New Pen(Color.LightSlateGray)
+        Dim y As Integer = 0
+        Dim x As Integer = 0
+
+        Do Until y > GraphicsPictureBox.Height
+
+            y += (GraphicsPictureBox.Height \ 10)
+            graphics.DrawLine(pen, 0, y, GraphicsPictureBox.Width, y)
+
+        Loop
+
+        Do Until x > GraphicsPictureBox.Width
+
+            x += (GraphicsPictureBox.Width \ 10)
+            graphics.DrawLine(pen, x, 0, x, GraphicsPictureBox.Height)
+
+        Loop
+    End Sub
+
 End Class

@@ -23,7 +23,7 @@ Partial Class EtchASketchForm
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.GraphicsPictureBox = New System.Windows.Forms.PictureBox()
         Me.ClearButton = New System.Windows.Forms.Button()
         Me.SerialPort = New System.IO.Ports.SerialPort(Me.components)
         Me.QYATBoardRadioButton = New System.Windows.Forms.RadioButton()
@@ -34,16 +34,17 @@ Partial Class EtchASketchForm
         Me.Label1 = New System.Windows.Forms.Label()
         Me.ReadTimer = New System.Windows.Forms.Timer(Me.components)
         Me.CommandTimer = New System.Windows.Forms.Timer(Me.components)
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ColorBox = New System.Windows.Forms.ColorDialog()
+        CType(Me.GraphicsPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
-        'PictureBox1
+        'GraphicsPictureBox
         '
-        Me.PictureBox1.Location = New System.Drawing.Point(12, 12)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(776, 364)
-        Me.PictureBox1.TabIndex = 0
-        Me.PictureBox1.TabStop = False
+        Me.GraphicsPictureBox.Location = New System.Drawing.Point(12, 12)
+        Me.GraphicsPictureBox.Name = "GraphicsPictureBox"
+        Me.GraphicsPictureBox.Size = New System.Drawing.Size(776, 364)
+        Me.GraphicsPictureBox.TabIndex = 0
+        Me.GraphicsPictureBox.TabStop = False
         '
         'ClearButton
         '
@@ -123,16 +124,16 @@ Partial Class EtchASketchForm
         Me.Controls.Add(Me.ColorButton)
         Me.Controls.Add(Me.QYATBoardRadioButton)
         Me.Controls.Add(Me.ClearButton)
-        Me.Controls.Add(Me.PictureBox1)
+        Me.Controls.Add(Me.GraphicsPictureBox)
         Me.Name = "EtchASketchForm"
         Me.Text = "Form1"
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.GraphicsPictureBox, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
 
-    Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents GraphicsPictureBox As PictureBox
     Friend WithEvents ClearButton As Button
     Friend WithEvents SerialPort As IO.Ports.SerialPort
     Friend WithEvents QYATBoardRadioButton As RadioButton
@@ -143,4 +144,5 @@ Partial Class EtchASketchForm
     Friend WithEvents Label1 As Label
     Friend WithEvents ReadTimer As Timer
     Friend WithEvents CommandTimer As Timer
+    Friend WithEvents ColorBox As ColorDialog
 End Class
