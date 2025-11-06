@@ -40,6 +40,10 @@ Partial Class EtchASketchForm
         '
         'GraphicsPictureBox
         '
+        Me.GraphicsPictureBox.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GraphicsPictureBox.BackColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.GraphicsPictureBox.Location = New System.Drawing.Point(12, 12)
         Me.GraphicsPictureBox.Name = "GraphicsPictureBox"
         Me.GraphicsPictureBox.Size = New System.Drawing.Size(776, 364)
@@ -48,6 +52,7 @@ Partial Class EtchASketchForm
         '
         'ClearButton
         '
+        Me.ClearButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ClearButton.Location = New System.Drawing.Point(518, 382)
         Me.ClearButton.Name = "ClearButton"
         Me.ClearButton.Size = New System.Drawing.Size(86, 56)
@@ -57,6 +62,7 @@ Partial Class EtchASketchForm
         '
         'QYATBoardRadioButton
         '
+        Me.QYATBoardRadioButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.QYATBoardRadioButton.AutoSize = True
         Me.QYATBoardRadioButton.Location = New System.Drawing.Point(454, 414)
         Me.QYATBoardRadioButton.Name = "QYATBoardRadioButton"
@@ -68,6 +74,7 @@ Partial Class EtchASketchForm
         '
         'ColorButton
         '
+        Me.ColorButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ColorButton.Location = New System.Drawing.Point(610, 382)
         Me.ColorButton.Name = "ColorButton"
         Me.ColorButton.Size = New System.Drawing.Size(86, 56)
@@ -77,6 +84,7 @@ Partial Class EtchASketchForm
         '
         'WaveButton
         '
+        Me.WaveButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.WaveButton.Location = New System.Drawing.Point(702, 382)
         Me.WaveButton.Name = "WaveButton"
         Me.WaveButton.Size = New System.Drawing.Size(86, 56)
@@ -86,6 +94,7 @@ Partial Class EtchASketchForm
         '
         'MouseRadioButton
         '
+        Me.MouseRadioButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.MouseRadioButton.AutoSize = True
         Me.MouseRadioButton.Location = New System.Drawing.Point(454, 391)
         Me.MouseRadioButton.Name = "MouseRadioButton"
@@ -97,6 +106,7 @@ Partial Class EtchASketchForm
         '
         'COMPortComboBox
         '
+        Me.COMPortComboBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.COMPortComboBox.FormattingEnabled = True
         Me.COMPortComboBox.Location = New System.Drawing.Point(12, 391)
         Me.COMPortComboBox.Name = "COMPortComboBox"
@@ -105,6 +115,7 @@ Partial Class EtchASketchForm
         '
         'Label1
         '
+        Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(19, 416)
         Me.Label1.Name = "Label1"
