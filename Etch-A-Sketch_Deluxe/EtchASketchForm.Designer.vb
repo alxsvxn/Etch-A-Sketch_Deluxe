@@ -236,6 +236,7 @@ Partial Class EtchASketchForm
         Me.ULTRADELUXEPROToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ULTRADELUXEPROToolStripMenuItem.Text = "ULTRA DELUXE PRO"
         Me.ULTRADELUXEPROToolStripMenuItem.ToolTipText = resources.GetString("ULTRADELUXEPROToolStripMenuItem.ToolTipText")
+        Me.ULTRADELUXEPROToolStripMenuItem.Visible = False
         '
         'PictureBox1
         '

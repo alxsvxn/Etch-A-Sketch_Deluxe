@@ -1,4 +1,13 @@
-﻿Imports System.IO.Ports
+﻿'Alexis Villagran
+'Etch-A-Sketch Deluxe
+'RCET 3371
+'https://github.com/alxsvxn/Etch-A-Sketch_Deluxe
+
+Option Strict On
+Option Explicit On
+Option Compare Text
+
+Imports System.IO.Ports
 Imports System.Linq.Expressions
 Public Class EtchASketchForm
     Private Sub EtchaASketchForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -83,22 +92,22 @@ Public Class EtchASketchForm
     '==========================================MATHEMATICAL GRAPHICS==========================================
 
     Sub Graticules()
-        Dim graphics As Graphics = GraphicsPictureBox.CreateGraphics
+        Dim graphics As Graphics = GraphicsPictureBox.CreateGraphics    'CREATES A GRAPHICS OBJECT TO DRAW ON THE PICTURE BOX
         Dim pen As New Pen(Color.LightSlateGray)
         Dim y As Integer = 0
-        Dim x As Integer = 0
+        Dim x As Integer = 0                                            'GRID INTEGERS INITIALIZED TO ZERO
 
-        Do Until y > GraphicsPictureBox.Height
+        Do Until y > GraphicsPictureBox.Height                          'DRAWS HORIZONTAL LINES ACROSS THE HEIGHT
 
-            y += (GraphicsPictureBox.Height \ 10)
-            graphics.DrawLine(pen, 0, y, GraphicsPictureBox.Width, y)
+            y += (GraphicsPictureBox.Height \ 10)                       'INCREMENTS Y BUT BY 1/10 OF THE HEIGHT
+            graphics.DrawLine(pen, 0, y, GraphicsPictureBox.Width, y)   'DRAWS LINE FROM LEFT TO RIGHT
 
         Loop
 
-        Do Until x > GraphicsPictureBox.Width
+        Do Until x > GraphicsPictureBox.Width                           'DRAWS VERTICAL LINES ACROSS THE WIDTH
 
             x += (GraphicsPictureBox.Width \ 10)
-            graphics.DrawLine(pen, x, 0, x, GraphicsPictureBox.Height)
+            graphics.DrawLine(pen, x, 0, x, GraphicsPictureBox.Height)  'DRAWS LINE FROM TOP TO BOTTOM
 
         Loop
     End Sub
@@ -158,11 +167,11 @@ Public Class EtchASketchForm
     Private lastPt As Point
     Private Sub GraphicsPictureBox_MouseDown(sender As Object, e As MouseEventArgs) Handles GraphicsPictureBox.MouseDown
         If MouseRadioButton.Checked AndAlso e.Button = MouseButtons.Left Then
-            mouseIsDrawing = True
-            lastPt = e.Location
+            mouseIsDrawing = True                                       'ENABLES DRAWING MODE
+            lastPt = e.Location                                         'STORES LAST POINT WHERE MOUSE IS CLICKED
             Using g As Graphics = GraphicsPictureBox.CreateGraphics(), p As New Pen(SetColor(), 2)
-                g.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
-                g.DrawLine(p, lastPt, lastPt)
+                g.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias     'MAKES LINES SMOOTHER
+                g.DrawLine(p, lastPt, lastPt)                           'DRAWS A SINGLE POINT IF MOUSE IS CLICKED
             End Using
         ElseIf e.Button = MouseButtons.Middle Then
             DialogBox()
@@ -175,7 +184,7 @@ Public Class EtchASketchForm
                 g.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
                 g.DrawLine(p, lastPt, e.Location)
             End Using
-            lastPt = e.Location
+            lastPt = e.Location                                         'UPDATES LAST POINT TO CURRENT LOCATION
         End If
     End Sub
 
@@ -194,21 +203,26 @@ Public Class EtchASketchForm
         End If
     End Sub
     Private Sub ReadTimer_Tick(sender As Object, e As EventArgs) Handles ReadTimer.Tick
-        If Not SerialPort.IsOpen Then Exit Sub
+        If Not SerialPort.IsOpen Then Exit Sub                          'EXIT IF PORT ISN'T OPEN
 
         While SerialPort.BytesToRead >= 4
-            Dim b(3) As Byte
-            Dim read As Integer = SerialPort.Read(b, 0, 4)
-            If read < 4 Then Exit While
+            Dim b(3) As Byte                                            'CREATES AN ARRAY TO STORE 4 BYTES
+            Dim read As Integer = SerialPort.Read(b, 0, 4)              'READS 4 BYTES FROM SERIAL PORT INTO ARRAY
 
-            ProcessQBoardPacket(b)
+            If read < 4 Then Exit While                                 'IF LESS THAN 4 BYTES READ, EXIT LOOP
+
+            ProcessQBoardPacket(b)                                      'SEND BYTES TO PROCESSING SUB
         End While
     End Sub
     Private Sub ProcessQBoardPacket(b() As Byte)
-        Dim x As Integer = (CInt(b(0)) << 2) Or (b(1) >> 6)
-        Dim y As Integer = (CInt(b(2)) << 2) Or (b(3) >> 6)
+        '===========================================
+        '=================IMPORTANT=================
+        '===========================================
+        'THIS COMBINES BITS FROM TWO BYTES TO CREATE A 10-BIT VALUE FOR X AND Y COORDINATES
+        Dim x As Integer = (CInt(b(0)) << 2) Or (b(1) >> 6)             'X-AXIS VALUE
+        Dim y As Integer = (CInt(b(2)) << 2) Or (b(3) >> 6)             'Y-AXIS VALUE
 
-        DrawWithQBoard(x, y)
+        DrawWithQBoard(x, y)                                            'DRAWS USING THE X AND Y VALUES
     End Sub
 
     Sub DrawWithQBoard(x As Integer, y As Integer)
@@ -216,15 +230,15 @@ Public Class EtchASketchForm
         Dim pen As New Pen(SetColor)
         pen.Width = 0.25
         Static oldx, oldy As Integer
-        Dim scaleX As Single = CSng(GraphicsPictureBox.Width / 1100)
-        Dim scaleY As Single = CSng((GraphicsPictureBox.Height / 1100) * -1)
+        Dim scaleX As Single = CSng(GraphicsPictureBox.Width / 1100)            'MATH TO SCALE 10-BIT VALUE TO PICTURE BOX SIZE
+        Dim scaleY As Single = CSng((GraphicsPictureBox.Height / 1100) * -1)    '1100 IS A SAFE VALUE TO AVOID GOING OUT OF BOUNDS
         graphics.TranslateTransform(0, GraphicsPictureBox.Height)
         graphics.ScaleTransform(scaleX, scaleY)
 
         Dim newX As Integer = x
         Dim newY As Integer = y
 
-        graphics.DrawLine(pen, oldx, oldy, newX, newY)
+        graphics.DrawLine(pen, oldx, oldy, newX, newY)                  'DRAWS LINE FROM OLD TO NEW COORDINATES
         oldy = newY
         oldx = newX
 
