@@ -1,4 +1,5 @@
 ﻿Imports System.IO.Ports
+Imports System.Linq.Expressions
 Public Class EtchASketchForm
     Private Sub EtchaASketchForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetDefaults()
@@ -244,5 +245,43 @@ Public Class EtchASketchForm
                 ReadTimer.Enabled = False
             End If
         End If
+    End Sub
+
+    '==========================================MENU STRIP==========================================
+    Private Sub EXITToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles EXITToolStripMenuItem1.Click
+        Me.Close()
+    End Sub
+
+    Private Sub SAVEToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SAVEToolStripMenuItem.Click
+        Using saveDialog As New SaveFileDialog()
+            saveDialog.Filter = "PNG Image|*.png|JPEG Image|*.jpg|Bitmap Image|*.bmp"
+            saveDialog.Title = "Save Your Masterpiece"
+            saveDialog.FileName = "MyDrawing.png"
+
+            If saveDialog.ShowDialog() = DialogResult.OK Then
+                Dim bmp As New Bitmap(GraphicsPictureBox.Width, GraphicsPictureBox.Height)
+                GraphicsPictureBox.DrawToBitmap(bmp, New Rectangle(0, 0, bmp.Width, bmp.Height))
+
+                Select Case IO.Path.GetExtension(saveDialog.FileName).ToLower()
+                    Case ".jpg"
+                        bmp.Save(saveDialog.FileName, Imaging.ImageFormat.Jpeg)
+                    Case ".bmp"
+                        bmp.Save(saveDialog.FileName, Imaging.ImageFormat.Bmp)
+                    Case Else
+                        bmp.Save(saveDialog.FileName, Imaging.ImageFormat.Png)
+                End Select
+
+                MessageBox.Show("Your piece has been saved!", "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
+        End Using
+    End Sub
+
+    Private Sub ABOUTToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ABOUTToolStripMenuItem1.Click
+        Dim message As String =
+        "Etch-A-Sketch" & vbCrLf &
+        "By Alexis Villagran" & vbCrLf &
+        "Fall 2025 — Idaho State University" & vbCrLf & vbCrLf &
+        "Your current subscription includes the Ultra Deluxe Pro features!"
+        MessageBox.Show(message, "About Etch-A-Sketch", MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
 End Class
