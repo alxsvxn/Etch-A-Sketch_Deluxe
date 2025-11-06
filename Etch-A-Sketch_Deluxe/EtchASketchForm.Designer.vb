@@ -35,6 +35,9 @@ Partial Class EtchASketchForm
         Me.ReadTimer = New System.Windows.Forms.Timer(Me.components)
         Me.CommandTimer = New System.Windows.Forms.Timer(Me.components)
         Me.ColorBox = New System.Windows.Forms.ColorDialog()
+        Me.SentTextBox = New System.Windows.Forms.TextBox()
+        Me.ConnectButton = New System.Windows.Forms.Button()
+        Me.Label2 = New System.Windows.Forms.Label()
         CType(Me.GraphicsPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -123,11 +126,46 @@ Partial Class EtchASketchForm
         Me.Label1.TabIndex = 7
         Me.Label1.Text = "COM PORT SELECT"
         '
+        'ReadTimer
+        '
+        '
+        'CommandTimer
+        '
+        '
+        'SentTextBox
+        '
+        Me.SentTextBox.Location = New System.Drawing.Point(221, 395)
+        Me.SentTextBox.Name = "SentTextBox"
+        Me.SentTextBox.Size = New System.Drawing.Size(36, 20)
+        Me.SentTextBox.TabIndex = 8
+        '
+        'ConnectButton
+        '
+        Me.ConnectButton.Location = New System.Drawing.Point(139, 389)
+        Me.ConnectButton.Name = "ConnectButton"
+        Me.ConnectButton.Size = New System.Drawing.Size(76, 49)
+        Me.ConnectButton.TabIndex = 9
+        Me.ConnectButton.Text = "Connect"
+        Me.ConnectButton.UseVisualStyleBackColor = True
+        '
+        'Label2
+        '
+        Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(221, 418)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(36, 13)
+        Me.Label2.TabIndex = 10
+        Me.Label2.Text = "SENT"
+        '
         'EtchASketchForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.ConnectButton)
+        Me.Controls.Add(Me.SentTextBox)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.COMPortComboBox)
         Me.Controls.Add(Me.MouseRadioButton)
@@ -156,4 +194,7 @@ Partial Class EtchASketchForm
     Friend WithEvents ReadTimer As Timer
     Friend WithEvents CommandTimer As Timer
     Friend WithEvents ColorBox As ColorDialog
+    Friend WithEvents SentTextBox As TextBox
+    Friend WithEvents ConnectButton As Button
+    Friend WithEvents Label2 As Label
 End Class

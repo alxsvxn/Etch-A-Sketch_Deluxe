@@ -8,9 +8,9 @@ Public Class EtchASketchForm
     Sub SetDefaults()
         Try
             For Each port In SerialPort.GetPortNames()
-                COMPortComboBox.Items.Add(port)
+                COMPortComboBox.Items.Add(port)                         'ADDS AVAILABLE COM PORTS TO COM PORT DROPDOWN
             Next
-            COMPortComboBox.SelectedIndex = 0
+            COMPortComboBox.SelectedIndex = 0                           'SETS FIRST COM PORT AS DEFAULT
         Catch ex As Exception
             MessageBox.Show("No COM Ports found, connect the Q@ Board to continue") 'NO COM PORTS FOUND MESSAGE
         End Try
@@ -38,22 +38,15 @@ Public Class EtchASketchForm
             End If
 
         Catch ex As Exception
-            'Show error message if port is invalid
-            MessageBox.Show("Error: " & ex.Message)
+            MessageBox.Show("Error: " & ex.Message)                     'DISPLAYS ERROR MESSAGE
             Return
         End Try
+
+        If QYATBoardRadioButton.Checked Then
+            QYATBoardRadioButton_CheckedChanged(Nothing, EventArgs.Empty)
+        End If
+
     End Sub
-    '==========================================RANDOM NUMBERS==========================================
-    Function GetRandomNumberAround(thisNumber%, Optional within% = 10) As Integer
-        Dim result%
-        result = thisNumber - within
-        result += GetRandomNumber(within) + GetRandomNumber(within)
-        Return result
-    End Function
-    Function GetRandomNumber(max%) As Integer
-        Randomize()
-        Return CInt(System.Math.Floor((Rnd() * (max + 1))))
-    End Function
     '==========================================BUTTONS==========================================
     Private Sub WaveButton_Click(sender As Object, e As EventArgs) Handles WaveButton.Click
         Graticules()
@@ -63,11 +56,15 @@ Public Class EtchASketchForm
     End Sub
 
     Private Sub ColorButton_Click(sender As Object, e As EventArgs) Handles ColorButton.Click
-        DialogBox()
+        DialogBox()                                                     'ADDS COLOR DIALOG BOX
     End Sub
 
     Private Sub ClearButton_Click(sender As Object, e As EventArgs) Handles ClearButton.Click
-        GraphicsPictureBox.Refresh()
+        GraphicsPictureBox.Refresh()                                    '"VOLATILE" CLEARS GRAPHICS BOX
+    End Sub
+
+    Private Sub ConnectButton_Click(sender As Object, e As EventArgs) Handles ConnectButton.Click
+        Connect()                                                       'CALLS OUR CONNECT SUB TO GET PORT READY TO SENT & RECEIVE DATA
     End Sub
     '==========================================COLORS==========================================
     Function SetColor(Optional newColor As Color = Nothing) As Color    'SETS OR GETS FORECOLOR
@@ -75,7 +72,7 @@ Public Class EtchASketchForm
         If newColor <> Nothing Then
             _forecolor = newColor
         End If
-        Return _forecolor
+        Return _forecolor                                               'ALLOWS USER TO SELECT ANY COLOR
     End Function
     Function DialogBox() As Color
         ColorBox.ShowDialog()
@@ -124,7 +121,7 @@ Public Class EtchASketchForm
         Dim pen As New Pen(Color.Blue)
         Dim yMax As Integer = GraphicsPictureBox.Height \ 2
         Dim oldX, newy As Integer
-        Dim oldY As Integer = GraphicsPictureBox.Height 'remove the divide 2 here so cosine starts at the right point 
+        Dim oldY As Integer = GraphicsPictureBox.Height
         Dim degPerGraticule As Double = 360 / GraphicsPictureBox.Width
 
         For x = 0 To GraphicsPictureBox.Width
@@ -187,11 +184,65 @@ Public Class EtchASketchForm
         End If
     End Sub
 
+    '==========================================QY@ GRAPHICS==========================================
+    Private Sub CommandTimer_Tick(sender As Object, e As EventArgs) Handles CommandTimer.Tick
+        If QYATBoardRadioButton.Checked AndAlso SerialPort.IsOpen Then
+            Const RequestAnalogCommand As Byte = &H53
+            SerialPort.Write(New Byte() {RequestAnalogCommand}, 0, 1)
+            SentTextBox.Text = $"{RequestAnalogCommand:X2}"
+        End If
+    End Sub
+    Private Sub ReadTimer_Tick(sender As Object, e As EventArgs) Handles ReadTimer.Tick
+        If Not SerialPort.IsOpen Then Exit Sub
+
+        While SerialPort.BytesToRead >= 4
+            Dim b(3) As Byte
+            Dim read As Integer = SerialPort.Read(b, 0, 4)
+            If read < 4 Then Exit While
+
+            ProcessQBoardPacket(b)
+        End While
+    End Sub
+    Private Sub ProcessQBoardPacket(b() As Byte)
+        Dim x As Integer = (CInt(b(0)) << 2) Or (b(1) >> 6)
+        Dim y As Integer = (CInt(b(2)) << 2) Or (b(3) >> 6)
+
+        DrawWithQBoard(x, y)
+    End Sub
+
+    Sub DrawWithQBoard(x As Integer, y As Integer)
+        Dim graphics As Graphics = GraphicsPictureBox.CreateGraphics
+        Dim pen As New Pen(SetColor)
+        pen.Width = 0.25
+        Static oldx, oldy As Integer
+        Dim scaleX As Single = CSng(GraphicsPictureBox.Width / 1100)
+        Dim scaleY As Single = CSng((GraphicsPictureBox.Height / 1100) * -1)
+        graphics.TranslateTransform(0, GraphicsPictureBox.Height)
+        graphics.ScaleTransform(scaleX, scaleY)
+
+        Dim newX As Integer = x
+        Dim newY As Integer = y
+
+        graphics.DrawLine(pen, oldx, oldy, newX, newY)
+        oldy = newY
+        oldx = newX
+
+        graphics.Dispose()
+    End Sub
+
     Private Sub QYATBoardRadioButton_CheckedChanged(sender As Object, e As EventArgs) Handles QYATBoardRadioButton.CheckedChanged
         If QYATBoardRadioButton.Checked Then
             mouseIsDrawing = False
 
+            If QYATBoardRadioButton.Checked AndAlso SerialPort.IsOpen Then
+                CommandTimer.Interval = 50                              'DETERMINES HOW OFTEN COMMAND IS SENT
+                ReadTimer.Interval = 10                                 'DETERMINES HOW OFTEN TO READ THE PORT BUFFER
+                CommandTimer.Enabled = True
+                ReadTimer.Enabled = True
+            Else
+                CommandTimer.Enabled = False
+                ReadTimer.Enabled = False
+            End If
         End If
     End Sub
-
 End Class
